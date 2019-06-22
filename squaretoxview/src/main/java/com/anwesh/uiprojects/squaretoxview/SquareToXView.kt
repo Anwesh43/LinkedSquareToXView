@@ -22,6 +22,7 @@ val foreColor : Int = Color.parseColor("#4CAF50")
 val backColor : Int = Color.parseColor("#BDBDBD")
 val rotDeg : Float = 45f
 val sqRotDeg : Float = 90f
+val delay : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
@@ -105,7 +106,7 @@ class SquareToXView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
@@ -222,7 +223,7 @@ class SquareToXView(ctx : Context) : View(ctx) {
         fun create(activity: Activity) : SquareToXView {
             val view : SquareToXView = SquareToXView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
