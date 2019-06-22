@@ -216,4 +216,13 @@ class SquareToXView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity: Activity) : SquareToXView {
+            val view : SquareToXView = SquareToXView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
