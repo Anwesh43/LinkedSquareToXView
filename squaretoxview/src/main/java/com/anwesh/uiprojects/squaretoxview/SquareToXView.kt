@@ -193,4 +193,26 @@ class SquareToXView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SquareToXView) {
+
+        private val stx : SquareToX = SquareToX(0)
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            stx.draw(canvas, paint)
+            animator.animate {
+                stx.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            stx.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
