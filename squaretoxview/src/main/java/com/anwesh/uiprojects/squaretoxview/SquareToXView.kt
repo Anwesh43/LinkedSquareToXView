@@ -21,6 +21,7 @@ val sizeFactor : Float = 2.9f
 val foreColor : Int = Color.parseColor("#4CAF50")
 val backColor : Int = Color.parseColor("#BDBDBD")
 val rotDeg : Float = 45f
+val sqRotDeg : Float = 90f
 
 fun Int.inverse() : Float = 1f / this
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
@@ -31,3 +32,31 @@ fun Float.mirrorValue(a : Int, b : Int) : Float {
     return (1 - k) * a.inverse() + k * b.inverse()
 }
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float = mirrorValue(a, b) * dir * scGap
+
+fun Canvas.drawSquareLine(i : Int, sc : Float, size : Float, paint : Paint) {
+    val sci : Float = sc.divideScale(i, lines)
+    save()
+    rotate(sqRotDeg * i)
+    translate(size * (1 - sci), 0f)
+    drawLine(0f, -size, 0f, size, paint)
+    restore()
+}
+
+fun Canvas.drawSTXNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    translate(w / 2, gap * (i + 1))
+    rotate(rotDeg * sc2)
+    for (j in 0..(lines - 1)) {
+        drawSquareLine(j, sc1, size, paint)
+    }
+    restore()
+}
